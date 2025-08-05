@@ -11,12 +11,13 @@ const sendMessage = async (socket, message) => {
     if (!message || typeof message !== 'string')
         return new AppError(constants.BAD_REQUEST, 'Message content is invalid')
 
-    // save the message
-    await sendMessageService(userId, message)
-
     // emit the message
     const io = getIo();
     io.emit('event:new message', { text: message, });
+
+    // save the message
+    await sendMessageService(userId, message)
+
 };
 
 export {
