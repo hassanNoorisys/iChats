@@ -1,4 +1,4 @@
-import asyncHandler from '../utils/asyncHandler.js';
+import {asyncHandler} from '../utils/asyncHandler.js';
 import AppError from '../utils/appError.js';
 import constants from '../config/constants.js';
 import {

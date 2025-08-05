@@ -8,8 +8,6 @@ const server = createServer(app)
 // socket server
 initSocket(server)
 
-
-
 const PORT = process.env.PORT
 server.listen(PORT, () => {
 
