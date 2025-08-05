@@ -1,21 +1,12 @@
 import app from './app.js'
 import { createServer } from 'http'
-import { Server } from 'socket.io'
 import connectDB from './src/config/db.connect.js'
+import { initSocket } from './src/config/socket.js'
 
 const server = createServer(app)
 
-const io = new Server(server)
-
-io.on('connection', (socket) => {
-
-    console.log('someone connected', socket.id)
-
-    socket.on('disconnect', () => {
-
-        console.log(`${socket.id} disconnected`)
-    })
-})
+// socket server
+initSocket(server)
 
 
 
