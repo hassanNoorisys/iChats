@@ -31,7 +31,6 @@ const sendMessage = async (socket, { recieverId, message }) => {
 
     const io = getIo()
 
-    console.log('send message --> ', senderId, recieverId, message)
    io.to(recieverId).emit("event:new message", message);
 }
 

@@ -19,12 +19,6 @@ const groupSchema = new Schema(
         members: [{
             type: Types.ObjectId,
             ref: 'user'
-        }],
-
-        chats: [{
-
-            type: Types.ObjectId,
-            ref: 'chat'
         }]
 
     },

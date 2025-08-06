@@ -1,5 +1,4 @@
 import chatModel from '../models/chats.model.js'
-import groupModel from '../models/group.model.js'
 
 // send message service
 const sendGroupMessageService = async (userId, message, groupId) => {

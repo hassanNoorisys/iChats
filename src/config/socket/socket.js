@@ -32,7 +32,10 @@ const initSocket = (server) => {
         // send private 1:1 message
         socket.on('event:send message', socketAsyncHandler(sendMessage)(socket))
 
-
+        // // upload file 
+        // socket.on('event:upload file', (data) => {
+        //     console.log(data)
+        // })
 
         socket.on('disconnect', () => {
 
