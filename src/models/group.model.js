@@ -16,10 +16,10 @@ const groupSchema = new Schema(
             ref: 'user'
         },
 
-        members: {
+        members: [{
             type: Types.ObjectId,
             ref: 'user'
-        },
+        }],
 
     },
 

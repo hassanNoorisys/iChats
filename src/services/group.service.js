@@ -1,5 +1,7 @@
+import { Types } from 'mongoose'
 import constants from '../config/constants.js'
 import groupModel from '../models/group.model.js'
+import userModel from '../models/user.model.js'
 import AppError from '../utils/appError.js'
 
 // create group service
@@ -7,7 +9,9 @@ const createGroupService = async (data) => {
 
     const { name, description, admin, members } = data
 
-    const group = new groupModel({ name, description, admins: admin, ...(members && { members }) })
+    const memberIds = members ? members.map((id) => { return new Types.ObjectId(id) }) : []
+
+    const group = new groupModel({ name, description, admins: admin, ...(members.length > 0 && { members: memberIds }) })
 
     const newGroup = await group.save()
 
@@ -31,4 +35,23 @@ const getGroupService = async (filter) => {
 
 }
 
-export { createGroupService, getGroupService }
+// add members to group service
+const addMembersService = async (filter, memberIds) => {
+
+    // check users are registered or not
+    const registeredUsers = await userModel.find({
+        _id: { $in: memberIds }
+    }).select(['name', '_id', 'mobile'])
+
+    const registeredIds = registeredUsers.map(user => user._id.toString());
+
+    const unregisteredIds = memberIds.filter(id => !registeredIds.includes(id.toString()));
+
+    // console.log('add members service -->', registeredUsers, registeredIds, unregisteredIds)
+
+    await groupModel.findOneAndUpdate({ admins: filter.admin, _id: filter.groupId }, { $addToSet: { members: registeredIds } })
+
+    return registeredUsers
+}
+
+export { createGroupService, getGroupService, addMembersService }

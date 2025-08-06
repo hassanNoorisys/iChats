@@ -1,5 +1,6 @@
+import { Types } from "mongoose";
 import constants from "../config/constants.js";
-import { createGroupService, getGroupService } from "../services/group.service.js";
+import { addMembersService, createGroupService, getGroupService } from "../services/group.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import responseHandler from "../utils/responseHandler.js";
 
@@ -29,4 +30,18 @@ const getGroup = asyncHandler(async (req, res, next) => {
     responseHandler(res, constants.OK, 'success', 'Groups found', { groups })
 })
 
-export { createGroup, getGroup }
+// add members in group
+const addMembers = asyncHandler(async (req, res, next) => {
+
+    const admin = req.user.id
+    const members = req.body.members
+    const groupId = req.body.groupId
+
+    const memberIds = members ? members.map(id => new Types.ObjectId(id)) : []
+
+    const addedMembers = await addMembersService({ admin, groupId }, memberIds)
+
+    responseHandler(res, constants.CREATED, 'success', 'Members added', { addedMembers })
+})
+
+export { createGroup, getGroup, addMembers }
