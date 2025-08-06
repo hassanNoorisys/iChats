@@ -9,6 +9,16 @@ const chatSchema = new Schema(
             required: true
         },
 
+        groupId: {
+            type: Types.ObjectId,
+            ref: 'group',
+        },
+
+        recieverId: {
+            type: Types.ObjectId,
+            ref: 'user',
+        },
+
         message: String
     },
 

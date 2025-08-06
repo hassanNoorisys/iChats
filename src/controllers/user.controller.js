@@ -1,7 +1,8 @@
-import {asyncHandler} from '../utils/asyncHandler.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 import AppError from '../utils/appError.js';
 import constants from '../config/constants.js';
 import {
+  getUserServices,
   loginUserService,
   userRegisterService,
 } from '../services/user.service.js';
@@ -13,7 +14,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
   if (!name || !email || !mobile || !password)
     return next(new AppError('All Fields are required', constants.BAD_REQUEST));
-  
+
   const newUser = await userRegisterService({
     name,
     email,
@@ -43,4 +44,13 @@ const loginUser = asyncHandler(async (req, res, next) => {
   responseHandler(res, constants.OK, 'success', 'Login successfull', { token });
 });
 
-export { registerUser, loginUser };
+// get users
+const getUser = asyncHandler(async (req, res, next) => {
+
+  const users = await getUserServices()
+  
+  responseHandler(res, constants.OK, 'success', 'Users found', { users })
+
+})
+
+export { registerUser, loginUser, getUser };

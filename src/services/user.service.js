@@ -47,4 +47,14 @@ const loginUserService = async (userData) => {
   return token;
 };
 
-export { userRegisterService, loginUserService };
+// get user
+const getUserServices = async () => {
+
+  const users = await userModel.find()
+
+  if (!users || users.length < 1) return new AppError(constants.NOT_FOUND, 'No User found')
+
+    return users
+}
+
+export { userRegisterService, loginUserService, getUserServices };

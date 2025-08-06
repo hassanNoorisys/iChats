@@ -4,10 +4,13 @@ import groupModel from '../models/group.model.js'
 // send message service
 const sendGroupMessageService = async (userId, message, groupId) => {
 
-    const newMessage = await chatModel.create({ senderId: userId, message: message })
-
-    if (groupId)
-        await groupModel.updateOne({ _id: groupId }, { $push: { chats: newMessage._id } })
+    const newMessage = await chatModel.create({ senderId: userId, message: message, groupId })
 }
 
-export { sendGroupMessageService }
+// send 1:1 message service
+const sendMessageService = async (senderId, recieverId, message) => {
+
+    await chatModel.create({ senderId, message: message, recieverId })
+}
+
+export { sendGroupMessageService, sendMessageService }
