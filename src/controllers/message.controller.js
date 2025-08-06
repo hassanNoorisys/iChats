@@ -13,11 +13,10 @@ const sendMessage = async (socket, message) => {
 
     // emit the message
     const io = getIo();
-    io.emit('event:new message', { text: message, });
+    socket.broadcast.emit('event:new message', { text: message, });
 
     // save the message
     await sendMessageService(userId, message)
-
 };
 
 export {

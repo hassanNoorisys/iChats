@@ -11,7 +11,9 @@ app.use(morgan('dev'))
 
 // routes
 import userRoute from './src/routes/user.route.js'
+import groupRoute from './src/routes/group.route.js'
 app.use('/api/user', userRoute)
+app.use('/api/group', groupRoute)
 
 // error handler
 import errorHandler from './src/middleware/errorHandler.js'

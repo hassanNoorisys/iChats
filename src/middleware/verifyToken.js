@@ -27,7 +27,9 @@ const verifyToken = (req, res, next) => {
             'Unauthorized access'
         );
 
+    req.user = {}
     const { id } = valid;
+    console.log('verfiy token --> ', id)
     req.user.id = id;
 
     next();
