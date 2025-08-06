@@ -1,7 +1,7 @@
 import app from './app.js'
 import { createServer } from 'http'
 import connectDB from './src/config/db.connect.js'
-import { initSocket } from './src/config/socket.js'
+import { initSocket } from './src/config/socket/socket.js'
 
 const server = createServer(app)
 

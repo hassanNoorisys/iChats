@@ -21,6 +21,12 @@ const groupSchema = new Schema(
             ref: 'user'
         }],
 
+        chats: [{
+
+            type: Types.ObjectId,
+            ref: 'chat'
+        }]
+
     },
 
     { timestamps: true }
