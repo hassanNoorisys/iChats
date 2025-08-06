@@ -1,5 +1,6 @@
 import { getGroupService } from "../../services/group.service.js"
 
+// join users to room at the of log in
 const joinUsertoGroupRoomsService = async (socket) => {
 
     const userId = socket.user.id
@@ -10,9 +11,7 @@ const joinUsertoGroupRoomsService = async (socket) => {
 
         socket.join(group._id.toString())
 
-        console.log('join user room service, user joined --> ', group._id)
-
-        socket.to(group._id.toString()).emit('event:join', { text: 'User joined in a room' })
+        socket.to(group._id.toString()).emit('event:join', { text: `${userId} in a room` })
     })
 }
 

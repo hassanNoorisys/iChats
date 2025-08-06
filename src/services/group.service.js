@@ -19,20 +19,23 @@ const createGroupService = async (data) => {
 }
 
 // get Group service
-const getGroupService = async (filter) => {
+const getGroupService = async (filter, groupId = undefined) => {
 
-    const groups = await groupModel.find({
-
+    const query = {
         $or: [
-            { admins: filter },
-            { members: filter }
+            { admins: new Types.ObjectId(filter) },
+            { members: new Types.ObjectId(filter) }
         ]
-    })
+    }
+
+    if (groupId)
+        query._id = new Types.ObjectId(groupId);
+    
+    const groups = await groupModel.find(query)
 
     if (!groups || groups.length < 1) throw new AppError(constants.NOT_FOUND, 'No groups found')
 
     return groups
-
 }
 
 // add members to group service

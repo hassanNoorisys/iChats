@@ -3,7 +3,7 @@ import AppError from "../../utils/appError.js";
 import constants from "../constants.js";
 import authSocket from "../../middleware/authSocket.js";
 import { socketAsyncHandler } from '../../utils/asyncHandler.js'
-import { sendMessage } from '../../controllers/message.controller.js'
+import { sendGroupMessage } from '../../controllers/message.controller.js'
 import { joinUsertoGroupRoomsService } from "./room.service.js";
 
 let io;
@@ -14,25 +14,28 @@ const initSocket = (server) => {
     // authorize socket middleware
     io.use(authSocket)
 
-    io.on('connection', async(socket) => {
+    io.on('connection', async (socket) => {
 
         console.log('connected --> ', socket.id, socket.user)
+
+
 
         // join logged in users to groups 
         await joinUsertoGroupRoomsService(socket)
 
-        
+        // send group message
+        socket.on('event:send group message', socketAsyncHandler(sendGroupMessage)(socket))
+
+        // send private one2one message
+        // socket.on('event: send message')
+
+
 
         socket.on('disconnect', () => {
 
             console.log(`${socket.id} disconnected`)
         })
-
-        // send message
-        socket.on('event:send message', socketAsyncHandler(sendMessage)(socket))
     })
-
-
 
     return io
 }

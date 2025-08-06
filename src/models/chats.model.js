@@ -3,7 +3,7 @@ import { model, Schema, Types } from 'mongoose';
 const chatSchema = new Schema(
     {
 
-        user: {
+        senderId: {
             type: Types.ObjectId,
             ref: 'user',
             required: true

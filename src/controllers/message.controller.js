@@ -1,27 +1,26 @@
 import constants from "../config/constants.js";
 import { getIo } from "../config/socket/socket.js";
 import AppError from "../utils/appError.js";
-import { sendMessageService } from '../services/message.service.js'
-import { get } from "mongoose";
+import { sendGroupMessageService } from '../services/message.service.js'
 import { getGroupService } from "../services/group.service.js";
 
 // send message
-const sendMessage = async (socket, message) => {
+const sendGroupMessage = async (socket, { groupId, message }) => {
 
     const userId = socket.user.id;
 
     if (!message || typeof message !== 'string')
         return new AppError(constants.BAD_REQUEST, 'Message content is invalid')
 
-    const group = await getGroupService(userId)
+    const group = await getGroupService(userId, groupId)
 
-    socket.to(group._id.toString()).emit('event:new message', { text: message, });
+    socket.to(group[0]._id.toString()).emit('event:new message', { text: message, });
 
     // save the message
-    await sendMessageService(userId, message)
+    await sendGroupMessageService(userId, message, groupId)
 };
 
 export {
 
-    sendMessage
+    sendGroupMessage
 }
