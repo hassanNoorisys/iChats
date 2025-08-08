@@ -40,8 +40,6 @@ const sendMessage = async (socket, { recieverId, message }) => {
 // send file 
 const sendFile = async (socket, { data, originalName, fileType }) => {
 
-    console.log('send file --> ', originalName)
-
     const buffer = Buffer.from(data, 'hex')
 
     const __filename = fileURLToPath(import.meta.url);
@@ -50,8 +48,9 @@ const sendFile = async (socket, { data, originalName, fileType }) => {
     const fileName = Date.now() + originalName
     const filePath = path.join(__dirname, '../public/images', fileName)
 
-    await fs.writeFile(filePath, buffer)
+    await fs.writeFile(filePath, buffer)   
 
+    socket.emit('event: send file', {text: 'file uploaded'})
 }
 
 export {

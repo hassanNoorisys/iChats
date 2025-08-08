@@ -7,8 +7,8 @@ const authSocket = async (socket, next) => {
 
     try {
 
-        // const token = socket.handshake.auth.token;   // for frontend
-        const token = socket.handshake.headers.auth;    // for postman
+        const token = socket.handshake.auth.token;   // for frontend
+        // const token = socket.handshake.headers.auth;    // for postman
 
         // console.log(token)
 
