@@ -2,12 +2,14 @@ import express from "express";
 import { configDotenv } from "dotenv";
 import morgan from "morgan";
 configDotenv({ path: '.env.dev' })
+import cors from 'cors'
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
+app.use(cors({ origin: '*' }))
 
 // routes
 import userRoute from './src/routes/user.route.js'

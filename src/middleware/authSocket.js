@@ -6,9 +6,11 @@ import AppError from "../utils/appError.js";
 const authSocket = async (socket, next) => {
 
     try {
-        const token = socket.handshake.headers.auth;
 
-        // console.log('auth socket --> ', token)
+        const token = socket.handshake.auth.token;
+
+        console.log(token)
+        // const token = socket.handshake.headers.auth;
 
         if (!token) {
             throw next(new AppError(constants.UNAUTHORIZED, 'Authentication token missing'));

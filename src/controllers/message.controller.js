@@ -3,6 +3,9 @@ import { getIo } from "../config/socket/socket.js";
 import AppError from "../utils/appError.js";
 import { sendGroupMessageService, sendMessageService } from '../services/message.service.js'
 import { getGroupService } from "../services/group.service.js";
+import { fileURLToPath } from 'url'
+import path from "path";
+import fs from 'fs/promises'
 
 // send group message
 const sendGroupMessage = async (socket, { groupId, message }) => {
@@ -31,11 +34,29 @@ const sendMessage = async (socket, { recieverId, message }) => {
 
     const io = getIo()
 
-   io.to(recieverId).emit("event:new message", message);
+    io.to(recieverId).emit("event:new message", message);
+}
+
+// send file 
+const sendFile = async (socket, { data, originalName, fileType }) => {
+
+    console.log('send file --> ', originalName)
+
+    const buffer = Buffer.from(data, 'hex')
+
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
+    const fileName = Date.now() + originalName
+    const filePath = path.join(__dirname, '../public/images', fileName)
+
+    await fs.writeFile(filePath, buffer)
+
 }
 
 export {
 
     sendGroupMessage,
-    sendMessage
+    sendMessage,
+    sendFile
 }
