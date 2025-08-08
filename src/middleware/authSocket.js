@@ -7,10 +7,10 @@ const authSocket = async (socket, next) => {
 
     try {
 
-        const token = socket.handshake.auth.token;
+        // const token = socket.handshake.auth.token;   // for frontend
+        const token = socket.handshake.headers.auth;    // for postman
 
-        console.log(token)
-        // const token = socket.handshake.headers.auth;
+        // console.log(token)
 
         if (!token) {
             throw next(new AppError(constants.UNAUTHORIZED, 'Authentication token missing'));
